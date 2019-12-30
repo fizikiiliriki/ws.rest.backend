@@ -3,7 +3,7 @@
 class DB {
 
 	function __construct () {
-		$this->DB = new mysqli('localhost', 'userooo-oven', 'UK%4j3RFj44bcRj', 'dbooo-oven');
+		$this->DB = new mysqli('localhost', '', '', '');
 
 		foreach ($_POST as $key=>$value) {
 			if (is_array($value)) {

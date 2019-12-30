@@ -1,1 +1,0 @@
-<pre><? echo htmlspecialchars(file_get_contents('index.php')); ?></pre>
