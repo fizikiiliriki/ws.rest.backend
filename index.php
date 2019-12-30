@@ -17,7 +17,7 @@ class Request {
 
 			if ($this->checkLogin) $this->checkLogin();
 			if ($this->requiredFields) $this->checkRequired($Processor->requiredFields);
-			if ($this->checkByEXP) $this->chekByExp($Processor->checkByEXP);
+			if ($this->checkByExp) $this->chekByExp($Processor->checkByExp);
 
 	}
 
@@ -35,7 +35,7 @@ class Request {
 		}
 	}
 
-	function checkByEXP ($fields) {
+	function checkByExp ($fields) {
 		foreach($fields as $key=>$value) {
 
 		}
@@ -58,7 +58,7 @@ class POSTsignup extends Request {
 		'phone'=>'обязательное, уникальное, ровно 11 цифр, может быть с ведущими нулями',
 		'password'=>'обязательное',
 	];
-	public $checkByEXP=[
+	public $checkByExp=[
 		'first_name'=>'^[А-я]$',
 		'surname'=>'^[А-я]$',
 		'phone'=>'^[0-9]{11}$',
@@ -113,7 +113,7 @@ class POSTphotoINT extends Request {
 	public $requiredFields=[
 		'_method'=>'обязательное поле, со значением “patch”, без кавычек'
 	];
-	public $checkByEXP=[
+	public $checkByExp=[
 		'_method'=>'^patch$',
 	];
 
