@@ -125,7 +125,7 @@ class POSTphotoINT extends Request {
 
 class GETphoto extends Request {
 
-	public $checkLogin=true;
+	//public $checkLogin=true;
 
 	function process () {
 
@@ -178,5 +178,3 @@ class GETuser extends Request {
 	}
 
 }
-
-$Request= new Request;
