@@ -17,7 +17,7 @@ class Request {
 
 			if ($this->checkLogin) $this->checkLogin();
 			if ($this->requiredFields) $this->checkRequired($Processor->requiredFields);
-			if ($this->checkByEXP) $this->chekByEXP($Processor->checkByEXP);
+			if ($this->checkByEXP) $this->chekByExp($Processor->checkByEXP);
 
 	}
 
@@ -125,7 +125,7 @@ class POSTphotoINT extends Request {
 
 class GETphoto extends Request {
 
-	//public $checkLogin=true;
+	public $checkLogin=true;
 
 	function process () {
 
