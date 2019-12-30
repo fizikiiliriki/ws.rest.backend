@@ -1,25 +1,24 @@
 <?
 
-define(DOCUMENT_ROOT, '/ws');
+define(DOCUMENT_ROOT, '/api');
+
+$className=str_replace(DOCUMENT_ROOT, '', $_SERVER['REQUEST_URI']);
+$className=preg_replace('/[0-9]+/', 'INT', $className);
+$className=$_SERVER['REQUEST_METHOD'].preg_replace('/[^A-z]/', '', $className);
+
+if (class_exists($className)) {
+	$Processor = new $className;
+	$Processor->process();
+} else Request::response(404, 'Not found', null);
 
 class Request {
 
 	function __construct() {
 
-		$className=str_replace(DOCUMENT_ROOT, '', $_SERVER['REQUEST_URI']);
-		$className=preg_replace('/[0-9]+/', 'INT', $className);
-		$className=$_SERVER['REQUEST_METHOD'].preg_replace('/[^A-z]/', '', $className);
+			if ($this->checkLogin) $this->checkLogin();
+			if ($this->requiredFields) $this->checkRequired($Processor->requiredFields);
+			if ($this->checkByEXP) $this->chekByEXP($Processor->checkByEXP);
 
-		if (class_exists($className)) {
-
-			$Processor = new $className;
-
-			if ($Processor->checkLogin) $this->checkLogin();
-			if ($Processor->requiredFields) $this->checkRequired($Processor->requiredFields);
-			if ($Processor->checkByEXP) $this->chekByEXP($Processor->checkByEXP);
-			$Processor->process();
-
-		} else Request::response(404, 'Not found', null);
 	}
 
 	function checkLogin () {
@@ -44,14 +43,14 @@ class Request {
 
 	static function response ($httpCode, $httpStatus, $data) {
 		header('Content-Type: application/json');
-		header('HTTP/1.0 '.$httpCode.' '.$httpStatus);
+		header('HTTP/1.1 '.$httpCode.' '.$httpStatus);
 		if ($data) echo json_encode($data);
 		exit;
 	}
 
 }
 
-class POSTsignup {
+class POSTsignup extends Request {
 
 	public $requiredFields=[
 		'first_name'=>'обязательное',
@@ -72,7 +71,7 @@ class POSTsignup {
 
 }
 
-class POSTlogin {
+class POSTlogin extends Request {
 
 	public $requiredFields=[
 		'phone'=>'обязательное',
@@ -85,7 +84,7 @@ class POSTlogin {
 
 }
 
-class POSTlogout {
+class POSTlogout extends Request {
 
 	public $checkLogin=true;
 
@@ -95,7 +94,7 @@ class POSTlogout {
 
 }
 
-class POSTphoto {
+class POSTphoto extends Request {
 
 	public $checkLogin=true;
 	public $requiredFields=[
@@ -108,7 +107,7 @@ class POSTphoto {
 
 }
 
-class POSTphotoINT {
+class POSTphotoINT extends Request {
 
 	public $checkLogin=true;
 	public $requiredFields=[
@@ -124,7 +123,7 @@ class POSTphotoINT {
 
 }
 
-class GETphoto {
+class GETphoto extends Request {
 
 	public $checkLogin=true;
 
@@ -134,7 +133,7 @@ class GETphoto {
 
 }
 
-class GETphotoINT {
+class GETphotoINT extends Request {
 
 	public $checkLogin=true;
 
@@ -144,7 +143,7 @@ class GETphotoINT {
 
 }
 
-class DELETEphotoINT {
+class DELETEphotoINT extends Request {
 
 	public $checkLogin=true;
 
@@ -154,7 +153,7 @@ class DELETEphotoINT {
 
 }
 
-class POSTuserINTshare {
+class POSTuserINTshare extends Request {
 
 	public $checkLogin=true;
 	public $requiredFields=[
@@ -167,7 +166,7 @@ class POSTuserINTshare {
 
 }
 
-class GETuser {
+class GETuser extends Request {
 
 	public $checkLogin=true;
 	public $requiredFields=[
